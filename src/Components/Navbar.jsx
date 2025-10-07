@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { FaCode } from "react-icons/fa";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineDownload } from "react-icons/ai";
+import { FaCode, FaDownload } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -11,47 +11,44 @@ export default function Navbar() {
   const navLinks = ["Home", "About", "Projects", "Contact"];
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
 
   const pathname = usePathname();
 
-  // Scroll listener only on home page
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     if (pathname === "/") {
-      const handleScroll = () => {
+      const handleSectionScroll = () => {
         const scrollPos = window.scrollY + 120;
         let current = "home";
-
         navLinks.forEach((link) => {
           const section = document.getElementById(link.toLowerCase());
-          if (section && scrollPos >= section.offsetTop) {
-            current = link.toLowerCase();
-          }
+          if (section && scrollPos >= section.offsetTop) current = link.toLowerCase();
         });
-
         setActiveSection(current);
       };
-
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleSectionScroll);
+      return () => window.removeEventListener("scroll", handleSectionScroll);
     } else {
       setActiveSection(pathname.replace("/", "") || "home");
     }
   }, [pathname]);
 
-  const getLinkHref = (link) => {
-    if (link.toLowerCase() === "home") return "/";
-    return `/${link.toLowerCase()}`;
-  };
-
-  const isActive = (link) => {
-    if (pathname === "/") {
-      return activeSection === link.toLowerCase();
-    }
-    return pathname === getLinkHref(link);
-  };
+  const getLinkHref = (link) => (link.toLowerCase() === "home" ? "/" : `/${link.toLowerCase()}`);
+  const isActive = (link) =>
+    pathname === "/" ? activeSection === link.toLowerCase() : pathname === getLinkHref(link);
 
   return (
-    <header className="w-full fixed top-0 left-0 z-[1000] bg-transparent">
+    <header
+      className={`w-full fixed top-0 left-0 z-[1000] transition-all duration-300 ${
+        scrolled ? "backdrop-blur-md bg-black/40" : "bg-transparent"
+      }`}
+    >
       <nav className="max-w-7xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between z-[1000] relative">
         {/* Logo */}
         <motion.div
@@ -65,41 +62,44 @@ export default function Navbar() {
           </h1>
         </motion.div>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-8 text-sm text-gray-300 z-[1000]">
-          {navLinks.map((link, i) => (
-            <motion.li
-              key={link}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i }}
-            >
-              <Link
-                href={getLinkHref(link)}
-                className={`hover:text-[#0abdfc] transition-colors ${
-                  isActive(link) ? "text-[#0abdfc] font-semibold" : ""
-                }`}
+        {/* Desktop Menu + Resume Button aligned to right */}
+        <div className="hidden md:flex items-center gap-8 z-[1000] ml-auto">
+          <ul className="flex items-center gap-8 text-sm text-gray-300">
+            {navLinks.map((link, i) => (
+              <motion.li
+                key={link}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * i }}
               >
-                {link}
-              </Link>
-            </motion.li>
-          ))}
-        </ul>
+                <Link
+                  href={getLinkHref(link)}
+                  className={`hover:text-[#0abdfc] transition-colors ${
+                    isActive(link) ? "text-[#0abdfc] font-semibold" : ""
+                  }`}
+                >
+                  {link}
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
 
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="hidden md:inline-block z-[1000]"
-        >
-          <Link
-            href="/contact"
-            className="px-5 py-2 rounded-full bg-gradient-to-r from-[#0abdfc] to-[#00a2ff] text-black font-semibold hover:opacity-90 transition"
+          {/* Resume Button with download icon */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Resume
-          </Link>
-        </motion.div>
+            <Link
+              href="https://drive.google.com/file/d/12FoThFh-WzU8_8KZwz3FcaDfLQOVyHfp/view?usp=sharing" // এখানে তোমার resume file path বসাও
+              target="#"
+              className="px-5 py-2 rounded-full bg-gradient-to-r  from-[#0abdfc] to-[#00a2ff] text-black font-semibold hover:opacity-90 transition flex items-center gap-2"
+            >
+             <FaDownload />
+ Resume 
+            </Link>
+          </motion.div>
+        </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center z-[1000]">
@@ -109,11 +109,10 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer with Overlay */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
@@ -122,7 +121,6 @@ export default function Navbar() {
               className="fixed inset-0 bg-black z-[900]"
             />
 
-            {/* Drawer */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -143,11 +141,13 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href="https://drive.google.com/file/d/12FoThFh-WzU8_8KZwz3FcaDfLQOVyHfp/view?usp=sharing"
+                target="#"
                 onClick={() => setMenuOpen(false)}
-                className="mt-4 px-5 py-2 rounded-full bg-gradient-to-r from-[#0abdfc] to-[#00a2ff] text-black font-semibold hover:opacity-90 transition"
+                className="mt-4 px-5 py-2 rounded-full bg-gradient-to-r from-[#0abdfc] to-[#00a2ff] text-black font-semibold hover:opacity-90 transition flex items-center gap-2"
               >
-                Resume
+                <FaDownload />
+Resume
               </Link>
             </motion.div>
           </>

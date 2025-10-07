@@ -3,6 +3,7 @@ import React from "react";
 import ProjectCard from "./ProjectCard"; // age je card tumi use korocho
 import { motion } from "framer-motion";
 import Link from "next/link";
+import GradientView from "./Gradient";
 
 // Sample project data
 const projects = [
@@ -37,7 +38,7 @@ const projects = [
 
 export default function ProjectSection() {
   return (
-    <section className="min-h-screen bg-[#0a0a0a] py-20 px-5 md:px-16">
+    <section id="projects" className="min-h-screen bg-[#0a0a0a] py-20 px-5 md:px-16">
       {/* Section Header */}
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
@@ -45,7 +46,7 @@ export default function ProjectSection() {
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold text-white mb-10 text-center"
       >
-        My Projects
+        <GradientView text={"My Projects"}></GradientView>
       </motion.h2>
 
       {/* Projects Grid */}

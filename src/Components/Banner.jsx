@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MorphingView from "./Morphing";
 import Hero3D from "./RotatingCube";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function HeroSection() {
   const [stars, setStars] = useState([]);
@@ -79,9 +80,10 @@ export default function HeroSection() {
           >
             <a
               href="#projects"
-              className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-black font-semibold rounded-full transition"
+              className="px-6 py-3 bg-sky-500  hover:bg-sky-400 text-black font-semibold rounded-full transition"
             >
-              View My Projects
+              View My Projects 
+
             </a>
             <a
               href="#contact"

@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import emailjs from "@emailjs/browser";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import GradientView from "./Gradient";
 
 // === Dynamic import for canvas-confetti (browser only) ===
 let confetti;
@@ -54,11 +55,11 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative py-20 px-6 md:px-16 overflow-hidden bg-[#0a0a0a]">
+    <section id="contact" className="relative py-20 px-6 md:px-16 overflow-hidden bg-[#0a0a0a]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[length:40px_40px] animate-slowFade" />
 
       <h2 className="text-3xl font-bold text-center text-white mb-12 relative z-10">
-        Get In Touch
+        <GradientView text={"Get In Touch"}></GradientView>
       </h2>
 
       <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto relative z-10">
