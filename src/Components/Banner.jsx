@@ -1,10 +1,22 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MorphingView from "./Morphing";
 import Hero3D from "./RotatingCube";
 
 export default function HeroSection() {
+  const [stars, setStars] = useState([]);
+
+  // Generate star positions on client-side only
+  useEffect(() => {
+    const newStars = Array.from({ length: 25 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      scale: Math.random(),
+    }));
+    setStars(newStars);
+  }, []);
+
   return (
     <section className="relative min-h-screen bg-black overflow-hidden flex items-center">
       {/* === Dynamic Grid Background === */}
@@ -13,17 +25,13 @@ export default function HeroSection() {
 
       {/* === Animated Stars === */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(25)].map((_, i) => (
+        {stars.map((star, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-white rounded-full opacity-70"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: Math.random(),
-            }}
+            initial={{ x: star.x, y: star.y, scale: star.scale }}
             animate={{
-              y: [null, Math.random() * window.innerHeight],
+              y: [star.y, Math.random() * window.innerHeight],
               opacity: [0.7, 0.2, 0.7],
             }}
             transition={{
@@ -51,20 +59,17 @@ export default function HeroSection() {
             </span>
           </motion.h1>
 
-          <motion.p
+          {/* Fixed: motion.div instead of motion.p */}
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             className="mt-6 text-lg text-gray-300 max-w-xl leading-relaxed"
           >
-            I'm a passionate{" "}
-            <span>
-             <MorphingView></MorphingView>
-            </span>{" "}
-            <br />
+            I'm a passionate <MorphingView /> <br />
             who loves crafting modern, responsive, and user-friendly web applications. 
             I focus on clean code, smooth UI, and full-stack integration to bring ideas to life.
-          </motion.p>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -92,11 +97,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
-          className="flex justify-center relative "
+          className="flex justify-center relative"
         >
-          
-    <Hero3D />
- 
+          <Hero3D />
         </motion.div>
       </div>
     </section>
