@@ -67,7 +67,7 @@ export default function HeroSection() {
             transition={{ delay: 0.3 }}
             className="mt-6 text-lg text-gray-300 max-w-xl leading-relaxed"
           >
-            I'm a passionate <MorphingView /> <br />
+            I'm a   <MorphingView /> <br />
             who loves crafting modern, responsive, and user-friendly web applications. 
             I focus on clean code, smooth UI, and full-stack integration to bring ideas to life.
           </motion.div>
