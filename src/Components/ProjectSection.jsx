@@ -1,42 +1,38 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard"; // age je card tumi use korocho
 import { motion } from "framer-motion";
 import Link from "next/link";
 import GradientView from "./Gradient";
+import useAxiosPublic from "@/Hooks/axiosPublic";
+import Loader from "./loader";
 
-// Sample project data
-const projects = [
-  {
-    title: "Unity Force",
-    description:
-      "Volunteer management app for coordinating community projects and events easily.",
-    tech: ["React", "Firebase", "Tailwind CSS", "React Router"],
-    image: "/projects/unity-force.png",
-    demo: "https://unity-force-demo.com",
-    repo: "https://github.com/md-rafi-3/unity-force",
-  },
-  {
-    title: "Blood Donation App",
-    description:
-      "A platform connecting donors and volunteers to manage blood donation requests.",
-    tech: ["MERN", "JWT", "Stripe", "Tailwind CSS"],
-    image: "/projects/blood-donation.png",
-    demo: "https://blood-donation-demo.com",
-    repo: "https://github.com/md-rafi-3/blood-donation-app",
-  },
-  {
-    title: "Gardening Hub",
-    description:
-      "Community platform for gardeners to share tips, events, and resources.",
-    tech: ["React", "MongoDB", "Express", "Node.js", "Tailwind CSS"],
-    image: "/projects/gardening-hub.png",
-    demo: "https://gardening-hub-demo.com",
-    repo: "https://github.com/md-rafi-3/gardening-hub",
-  },
-];
 
 export default function ProjectSection() {
+  const [projects,setProjects]=useState([])
+   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
+
+  
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await axiosPublic.get("/projects");
+        const allProjects = res.data;
+
+        
+        setProjects(allProjects.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to load projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [axiosPublic]);
+
+  if (loading) return <Loader />;
   return (
     <section id="projects" className="min-h-screen bg-[#0a0a0a] py-20 px-5 md:px-16">
       {/* Section Header */}

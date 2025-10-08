@@ -40,12 +40,12 @@ export default function Footer() {
                 label: "GitHub",
               },
               {
-                href: "https://linkedin.com/in/md-rafi-islam",
+                href: "https://www.linkedin.com/in/md-rafi-islam94",
                 icon: <FaLinkedin />,
                 label: "LinkedIn",
               },
               {
-                href: "https://facebook.com",
+                href: "https://www.facebook.com/rafi.rupo",
                 icon: <FaFacebook />,
                 label: "Facebook",
               },

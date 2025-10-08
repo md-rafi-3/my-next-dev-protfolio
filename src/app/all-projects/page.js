@@ -1,7 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "@/Components/ProjectCard";
+import useAxiosPublic from "@/Hooks/axiosPublic";
+import Loader from "@/Components/loader";
+import GradientView from "@/Components/Gradient";
 
 // Sob projects data
 const allProjects = [
@@ -36,6 +39,26 @@ const allProjects = [
 ];
 
 export default function AllProjectsPage() {
+   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await axiosPublic.get("/projects");
+        setProjects(res.data);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [axiosPublic]);
+
+  if (loading) return <Loader />;
   return (
     <section className="min-h-screen bg-[#0a0a0a] py-20 px-5 md:px-16">
       {/* Header */}
@@ -45,12 +68,12 @@ export default function AllProjectsPage() {
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold text-white mb-12 text-center"
       >
-        All Projects
+       <GradientView text={'All Projects'}></GradientView>
       </motion.h1>
 
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {allProjects.map((project, index) => (
+        {projects.map((project, index) => (
           <ProjectCard key={index} project={project} />
         ))}
       </div>

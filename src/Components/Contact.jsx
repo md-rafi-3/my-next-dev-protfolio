@@ -71,7 +71,7 @@ export default function ContactSection() {
           </p>
           <ul className="space-y-4 text-gray-300">
             <li className="flex items-center gap-3">
-              <MdEmail className="text-xl text-[#ff00ff]" /> mdrafiislam9411@gmail.com
+              <MdEmail className="text-xl text-[#ff00ff]" /> mdrafiislam.dev@gmail.com
             </li>
             <li className="flex items-center gap-3">
               <FaPhoneAlt className="text-xl text-[#ff00ff]" /> +8801618802042
