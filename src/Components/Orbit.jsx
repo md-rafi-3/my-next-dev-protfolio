@@ -20,7 +20,6 @@ import {
   SiNetlify,
 } from "react-icons/si";
 
-// তোমার সব skill আলাদা আলাদা mission হিসেবে
 const missions = [
   {
     id: 1,
@@ -84,19 +83,19 @@ const fadeUp = {
 export default function SkillsPathTimeline() {
   return (
     <section className=" text-white py-20 flex flex-col items-center overflow-hidden">
-   
+      
 
       <div className="relative w-full max-w-5xl">
-        {/* Dotted vertical line */}
+        {/* Dotted vertical line (always center) */}
         <div className="absolute left-1/2 top-0 h-full w-[2px] border-l-2 border-dotted border-gray-600 transform -translate-x-1/2"></div>
 
         <div className="flex flex-col space-y-16">
           {missions.map((mission, i) => (
             <motion.div
               key={mission.id}
-              className={`relative flex items-center justify-${
-                i % 2 === 0 ? "start" : "end"
-              } w-full`}
+              className={`relative flex items-center w-full ${
+                i % 2 === 0 ? "md:justify-start" : "md:justify-end"
+              } justify-center`}
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
@@ -105,8 +104,8 @@ export default function SkillsPathTimeline() {
             >
               {/* Card */}
               <div
-                className={`bg-[#141422] border border-gray-700 hover:border-cyan-500 transition-all duration-300 rounded-2xl p-6 w-[80%] md:w-[45%] shadow-lg ${
-                  i % 2 === 0 ? "ml-0 mr-auto" : "ml-auto mr-0"
+                className={`bg-[#141422] border border-gray-700 hover:border-cyan-500 transition-all duration-300 rounded-2xl p-6 w-[85%] md:w-[45%] shadow-lg ${
+                  i % 2 === 0 ? "md:ml-0 md:mr-auto" : "md:ml-auto md:mr-0"
                 }`}
               >
                 <span className="bg-purple-700 text-xs px-3 py-1 rounded-full font-semibold">
@@ -125,7 +124,7 @@ export default function SkillsPathTimeline() {
 
               {/* Dot connector */}
               <div
-                className="absolute left-1/2 w-5 h-5 bg-cyan-400 rounded-full border-4 border-[#0b0b15] transform -translate-x-1/2"
+                className="absolute left-1/2 hidden md:block w-5 h-5 bg-cyan-400 rounded-full border-4 border-[#0b0b15] transform -translate-x-1/2"
                 style={{ top: "50%" }}
               ></div>
             </motion.div>
