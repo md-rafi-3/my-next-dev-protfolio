@@ -96,6 +96,7 @@ export default function TechCodeBlock() {
 
   return (
     <div className="bg-[#0d1117] rounded-xl border border-[#30363d] shadow-lg w-full max-w-5xl mx-auto overflow-hidden">
+      
       {/* Toolbar */}
       <div className="flex items-center px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
         <div className="flex items-center space-x-2">
