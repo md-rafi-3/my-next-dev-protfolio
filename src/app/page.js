@@ -18,7 +18,7 @@ export default function Page() {
       <WelcomeLoader />
 
       <Banner />
-      <div>
+      <div className='mt-20'>
         <GradientView text={"My Skill Set"} />
        <SkillsPathTimeline></SkillsPathTimeline>
         <TechCodeBlock />
