@@ -19,6 +19,8 @@ import {
   SiVercel,
   SiNetlify,
 } from "react-icons/si";
+import TechCodeBlock from "./TechCodeBlock";
+import GradientView from "./Gradient";
 
 const missions = [
   {
@@ -82,8 +84,10 @@ const fadeUp = {
 
 export default function SkillsPathTimeline() {
   return (
-    <section className=" text-white py-20 flex flex-col items-center overflow-hidden">
-      
+    <section className=" text-white py-20 mt-20 flex flex-col items-center overflow-hidden">
+      <div className="mb-7">
+        <GradientView text={"My Skill Set"} />
+      </div>
 
       <div className="relative w-full max-w-5xl">
         {/* Dotted vertical line (always center) */}
@@ -108,9 +112,7 @@ export default function SkillsPathTimeline() {
                   i % 2 === 0 ? "md:ml-0 md:mr-auto" : "md:ml-auto md:mr-0"
                 }`}
               >
-                <span className="bg-purple-700 text-xs px-3 py-1 rounded-full font-semibold">
-                  Skill {mission.id}
-                </span>
+              
                 <div className="flex items-center gap-3 mt-4">
                   {mission.icon}
                   <h3 className="text-lg font-semibold">{mission.title}</h3>
@@ -130,7 +132,10 @@ export default function SkillsPathTimeline() {
             </motion.div>
           ))}
         </div>
+
       </div>
+
+      <div className="mt-10"><TechCodeBlock></TechCodeBlock></div>
     </section>
   );
 }

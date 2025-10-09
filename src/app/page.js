@@ -1,14 +1,9 @@
 // app/page.js (Server Component)
 import Banner from '@/Components/Banner';
 import ContactSection from '@/Components/Contact';
-import GradientView from '@/Components/Gradient';
-import SkillsPath from '@/Components/Orbit';
 import SkillsPathTimeline from '@/Components/Orbit';
-import SkillsSection from '@/Components/Orbit';
-import SkillsFloating from '@/Components/Orbit';
 import ProjectSection from '@/Components/ProjectSection';
 import ServicesSection from '@/Components/ServicesSection';
-import TechCodeBlock from '@/Components/TechCodeBlock';
 import WelcomeLoader from '@/Components/WelcomeLoader'; // Client Component
 
 export default function Page() {
@@ -18,11 +13,11 @@ export default function Page() {
       <WelcomeLoader />
 
       <Banner />
-      <div className='mt-20'>
-        <GradientView text={"My Skill Set"} />
+   
+        
        <SkillsPathTimeline></SkillsPathTimeline>
-        <TechCodeBlock />
-      </div>
+       
+      
       <ServicesSection />
       <ProjectSection />
       <ContactSection></ContactSection>

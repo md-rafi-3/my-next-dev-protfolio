@@ -11,7 +11,7 @@ export default function WelcomeLoader() {
     if (!hasVisited) {
       setLoading(true);
       sessionStorage.setItem("hasVisited", "true");
-      const timer = setTimeout(() => setLoading(false), 3500);
+      const timer = setTimeout(() => setLoading(false), 3000);
       return () => clearTimeout(timer);
     }
   }, []);
