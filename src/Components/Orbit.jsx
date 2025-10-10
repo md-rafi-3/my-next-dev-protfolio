@@ -19,7 +19,6 @@ import {
   SiVercel,
   SiNetlify,
 } from "react-icons/si";
-import TechCodeBlock from "./TechCodeBlock";
 import GradientView from "./Gradient";
 
 const missions = [
@@ -135,7 +134,7 @@ export default function SkillsPathTimeline() {
 
       </div>
 
-      <div className="mt-10"><TechCodeBlock></TechCodeBlock></div>
+     
     </section>
   );
 }

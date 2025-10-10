@@ -6,7 +6,18 @@ import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import html from "react-syntax-highlighter/dist/esm/languages/hljs/xml";
 import css from "react-syntax-highlighter/dist/esm/languages/hljs/css";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { SiHtml5, SiCss3, SiTailwindcss, SiReact, SiNextdotjs, SiNodedotjs, SiExpress, SiMongodb, SiMysql, SiFirebase } from "react-icons/si";
+import {
+  SiHtml5,
+  SiCss3,
+  SiTailwindcss,
+  SiReact,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
+  SiMysql,
+  SiFirebase,
+} from "react-icons/si";
 
 SyntaxHighlighter.registerLanguage("javascript", js);
 SyntaxHighlighter.registerLanguage("html", html);
@@ -68,74 +79,82 @@ export default function TechCodeBlock() {
   const [typedCode, setTypedCode] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
 
+  // Cursor blink
   useEffect(() => {
-    let cursorInterval = setInterval(() => {
-      setCursorVisible((prev) => !prev);
-    }, 500);
-    return () => clearInterval(cursorInterval);
+    const interval = setInterval(() => setCursorVisible((prev) => !prev), 500);
+    return () => clearInterval(interval);
   }, []);
 
+  // Typing effect
   useEffect(() => {
-    setTypedCode(""); // reset typing on tab change
+    setTypedCode("");
     const code = codeSnippets[activeTab];
-    let index = 0;
-
+    let i = 0;
     const type = () => {
-      if (index <= code.length) {
-        setTypedCode(code.slice(0, index));
-        index++;
-        setTimeout(type, 15);
+      if (i <= code.length) {
+        setTypedCode(code.slice(0, i));
+        i++;
+        setTimeout(type, 10);
       }
     };
-
-    const typingTimeout = setTimeout(type, 300);
-    return () => clearTimeout(typingTimeout);
+    const timeout = setTimeout(type, 300);
+    return () => clearTimeout(timeout);
   }, [activeTab]);
 
   const activeLang = tabs.find((tab) => tab.name === activeTab)?.lang || "javascript";
 
   return (
-    <div className="bg-[#0d1117] rounded-xl border border-[#30363d] shadow-lg w-full max-w-5xl mx-auto overflow-hidden">
-      
-      {/* Toolbar */}
-      <div className="flex items-center px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
-        <div className="flex items-center space-x-2">
-          <span className="w-3 h-3 bg-red-500 rounded-full"></span>
-          <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
-          <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+    <div className="w-full max-w-6xl mx-auto px-3 md:px-8">
+      <div className="bg-[#0d1117]/80 backdrop-blur-xl rounded-2xl border border-[#30363d]/60 shadow-[0_0_25px_#00000060] overflow-hidden">
+        
+        {/* Toolbar */}
+        <div className="flex items-center px-5 py-3 bg-[#161b22]/70 border-b border-[#30363d]/70">
+          <div className="flex items-center space-x-2">
+            <span className="w-3 h-3 bg-red-500 rounded-full shadow-md"></span>
+            <span className="w-3 h-3 bg-yellow-500 rounded-full shadow-md"></span>
+            <span className="w-3 h-3 bg-green-500 rounded-full shadow-md"></span>
+          </div>
+          <div className="flex-1"></div>
+          <span className="text-xs sm:text-sm text-gray-400 tracking-wider font-semibold">
+            {activeTab.toUpperCase()}
+          </span>
         </div>
-        <div className="flex-1"></div>
-        <span className="text-sm text-gray-400 font-medium ml-auto">{activeTab.toUpperCase()}</span>
-      </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 px-4 py-2 bg-[#161b22] border-b border-[#30363d] overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600">
-        {tabs.map((tab) => (
-          <button
-            key={tab.name}
-            onClick={() => setActiveTab(tab.name)}
-            className={`flex items-center gap-1 px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-all ${
-              activeTab === tab.name
-                ? "bg-[#0d1117] border border-gray-600 text-white"
+        {/* Tabs */}
+        <div className="flex gap-2 px-3 py-3 bg-[#161b22]/80 border-b border-[#30363d]/60 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600">
+          {tabs.map((tab) => (
+            <button
+              key={tab.name}
+              onClick={() => setActiveTab(tab.name)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-300 whitespace-nowrap 
+              ${activeTab === tab.name
+                ? "bg-[#0d1117] border border-gray-600 text-white scale-105 shadow-md"
                 : "text-gray-400 hover:text-white hover:bg-[#1e232a]"
-            }`}
-          >
-            {tab.icon} {tab.name.toUpperCase()}
-          </button>
-        ))}
-      </div>
+              }`}
+            >
+              {tab.icon} {tab.name.toUpperCase()}
+            </button>
+          ))}
+        </div>
 
-      {/* Code Area with Syntax Highlight */}
-      <div className="px-4 py-4 h-[360px] overflow-auto">
-        <SyntaxHighlighter
-          language={activeLang}
-          style={atomOneDark}
-          showLineNumbers
-          wrapLines
-          lineProps={{ style: { wordBreak: "break-word", whiteSpace: "pre-wrap" } }}
-        >
-          {typedCode + (cursorVisible ? "|" : "")}
-        </SyntaxHighlighter>
+        {/* Code Area */}
+        <div className="px-2 sm:px-4 py-3 sm:py-5 h-[300px] sm:h-[380px] overflow-auto scrollbar-thin scrollbar-thumb-[#30363d] scrollbar-track-transparent">
+          <SyntaxHighlighter
+            language={activeLang}
+            style={atomOneDark}
+            showLineNumbers
+            wrapLines
+            customStyle={{
+              background: "transparent",
+              fontSize: "0.9rem",
+              lineHeight: "1.6",
+              fontFamily: "JetBrains Mono, monospace",
+            }}
+            lineProps={{ style: { wordBreak: "break-word", whiteSpace: "pre-wrap" } }}
+          >
+            {typedCode + (cursorVisible ? "|" : "")}
+          </SyntaxHighlighter>
+        </div>
       </div>
     </div>
   );
