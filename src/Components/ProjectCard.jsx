@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { FiGithub, FiExternalLink } from "react-icons/fi";
 
 export default function ProjectCard({ project }) {
@@ -19,13 +21,14 @@ export default function ProjectCard({ project }) {
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="relative flex-1 bg-[#0d0d0d]  rounded-2xl overflow-hidden shadow-md flex flex-col"
+      className="relative flex-1 bg-[#0d0d0d] rounded-2xl overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-shadow duration-500"
     >
-      {/* === Touch Light Effect (only on hover) === */}
+      {/* === Light Hover Effect === */}
       {hover && (
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none"
@@ -35,23 +38,28 @@ export default function ProjectCard({ project }) {
         />
       )}
 
-      {/* === Content Overlay === */}
-      <div className="relative z-10 border-2 border-[#0d0d0d] rounded-2xl flex flex-col h-full">
-        {/* Thumbnail */}
+      {/* === Content === */}
+      <div className="relative z-10 border-2 border-transparent rounded-2xl flex flex-col h-full transition-all duration-500 hover:border-[#9b1743]/40">
+        {/* === Thumbnail === */}
         <div className="relative w-full h-48 overflow-hidden">
-          <img
+          <Image
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 hover:scale-110"
+            placeholder="blur"
+            blurDataURL="/blur-placeholder.png" // optional blur image
           />
         </div>
 
-        {/* Content */}
+        {/* === Details === */}
         <div className="flex flex-col flex-grow p-5">
           <h3 className="text-xl font-semibold text-white mb-2">
             {project.title}
           </h3>
-          <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+
+          <p className="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-3">
             {project.description}
           </p>
 

@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+     compress: true,
+  poweredByHeader: false,
+  swcMinify: true,
+    images: {
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "**",
+    },
+  ],
+},
+};
 
 export default nextConfig;

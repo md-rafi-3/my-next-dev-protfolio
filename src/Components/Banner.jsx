@@ -1,72 +1,22 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import MorphingView from "./Morphing";
-import Hero3D from "./RotatingCube";
+// import Hero3D from "./RotatingCube";
 import { FaArrowRight } from "react-icons/fa";
+import HeroAnimation from "./HeroAnimation";
+import dynamic from "next/dynamic";
 
 export default function HeroSection() {
-  const [stars, setStars] = useState([]);
+  
+  // Client-only Hero3D
+const Hero3D = dynamic(() => import("./RotatingCube"), { ssr: false });
 
-  useEffect(() => {
-    const newStars = Array.from({ length: 35 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      scale: Math.random(),
-    }));
-    setStars(newStars);
-  }, []);
 
   return (
     <section className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center">
-      {/* === Nebula / Space Gradient Background === */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-black to-sky-950" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:60px_60px] opacity-20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
-
-      {/* === Floating Light Orbs === */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-sky-400/20 blur-3xl"
-          style={{
-            width: `${150 + Math.random() * 150}px`,
-            height: `${150 + Math.random() * 150}px`,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, 20, 0],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 8 + Math.random() * 5,
-            repeat: Infinity,
-            repeatType: "mirror",
-          }}
-        />
-      ))}
-
-      {/* === Animated Stars === */}
-      <div className="absolute inset-0 overflow-hidden">
-        {stars.map((star, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-[8px] h-[8px] bg-white rounded-full opacity-70"
-            initial={{ x: star.x, y: star.y, scale: star.scale }}
-            animate={{
-              y: [star.y, Math.random() * window.innerHeight],
-              opacity: [0.7, 0.2, 0.7],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              repeatType: "mirror",
-            }}
-          />
-        ))}
-      </div>
+      
+      <HeroAnimation></HeroAnimation>
+    
 
       {/* === Hero Content === */}
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-6 md:px-12 py-24 md:py-36 items-center">
