@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/Components/Navbar";
@@ -34,14 +35,14 @@ export const metadata = {
   authors: [{ name: "Md Rafi Islam" }],
   creator: "Md Rafi Islam",
   publisher: "Md Rafi Islam",
-   icons: {
+  icons: {
     icon: "/favIcon.png", // তোমার favicon এর path
   },
   openGraph: {
     title: "Md Rafi Islam || Full-Stack Web Developer",
     description:
       "Explore my portfolio showcasing creative and functional web applications built with the MERN stack, React, and Tailwind CSS.",
-    url: "https://my-next-dev-protfolio.vercel.app/", 
+    url: "https://my-next-dev-protfolio.vercel.app/",
     siteName: "Md Rafi Islam Portfolio",
     images: [
       {
@@ -58,7 +59,6 @@ export const metadata = {
     title: "Md Rafi Islam || Full-Stack Web Developer",
     description:
       "Full-Stack Web Developer skilled in React, Node.js, Express, and MongoDB. Passionate about creating modern and scalable web applications.",
-   
   },
 };
 
@@ -70,6 +70,8 @@ export default function RootLayout({ children }) {
       >
         <Navbar></Navbar>
         {children}
+        <SpeedInsights />
+
         <Footer></Footer>
       </body>
     </html>
