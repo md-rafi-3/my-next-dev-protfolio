@@ -46,7 +46,7 @@ export default function AllProjectsPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axiosPublic.get("/projects");
+        const res = await axiosPublic.get("/all-projects");
         setProjects(res.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -56,7 +56,7 @@ export default function AllProjectsPage() {
     };
 
     fetchProjects();
-  }, [axiosPublic]);
+  }, []);
 
   if (loading) return <Loader />;
   return (

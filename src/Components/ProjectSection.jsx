@@ -30,7 +30,7 @@ export default function ProjectSection() {
     };
 
     fetchProjects();
-  }, [axiosPublic]);
+  }, []);
 
   if (loading) return <Loader />;
   return (
