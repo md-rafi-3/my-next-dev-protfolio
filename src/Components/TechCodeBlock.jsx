@@ -72,7 +72,88 @@ export default function App() {
     </div>
   );
 }`,
+
+  nextjs: `"use client";
+import Image from "next/image";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
+      <h1 className="text-4xl font-bold">Welcome to Next.js ⚡</h1>
+      <p className="text-gray-400 mt-3">Fast, powerful, and full-stack ready!</p>
+    </main>
+  );
+}`,
+
+  nodejs: `const http = require("http");
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello from Node.js server!");
+});
+
+server.listen(5000, () => console.log("Server running on port 5000"));`,
+
+  express: `const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello from Express.js 🚀");
+});
+
+app.listen(3000, () => console.log("Server is running on port 3000"));`,
+
+  mongodb: `const { MongoClient } = require("mongodb");
+
+async function connectDB() {
+  const uri = "mongodb://localhost:27017";
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const db = client.db("portfolio");
+    console.log("Connected to MongoDB ✅");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+
+connectDB();`,
+
+  mysql: `import mysql from "mysql2";
+
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "portfolio_db",
+});
+
+db.connect((err) => {
+  if (err) throw err;
+  console.log("MySQL Connected 🎯");
+});`,
+
+  firebase: `import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "yourapp.firebaseapp.com",
+  projectId: "yourapp",
+  storageBucket: "yourapp.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abc123",
 };
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("Firebase initialized 🔥");`,
+};
+
 
 export default function TechCodeBlock() {
   const [activeTab, setActiveTab] = useState("html");
