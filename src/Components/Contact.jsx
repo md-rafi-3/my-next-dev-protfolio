@@ -1,23 +1,25 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import GradientView from "./Gradient";
-
-// === Dynamic import for canvas-confetti (browser only) ===
-let confetti;
-if (typeof window !== "undefined") {
-  confetti = require("canvas-confetti");
-}
 
 export default function ContactSection() {
   const form = useRef();
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [confettiInstance, setConfettiInstance] = useState(null);
+
+  // ✅ Dynamically import confetti only on client
+  useEffect(() => {
+    (async () => {
+      const module = await import("canvas-confetti");
+      setConfettiInstance(() => module.default);
+    })();
+  }, []);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -36,8 +38,13 @@ export default function ContactSection() {
           setSent(true);
           e.target.reset();
 
-          if (confetti) {
-            confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+          // ✅ Trigger confetti safely
+          if (confettiInstance) {
+            confettiInstance({
+              particleCount: 80,
+              spread: 60,
+              origin: { y: 0.7 },
+            });
           }
 
           setTimeout(() => setSent(false), 4000);
@@ -59,7 +66,7 @@ export default function ContactSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[length:40px_40px] animate-slowFade" />
 
       <h2 className="text-3xl font-bold text-center text-white mb-12 relative z-10">
-        <GradientView text={"Get In Touch"}></GradientView>
+        <GradientView text={"Get In Touch"} />
       </h2>
 
       <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto relative z-10">
