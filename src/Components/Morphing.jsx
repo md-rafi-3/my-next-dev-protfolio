@@ -23,7 +23,7 @@ const MorphingText = ({
   }, [words.length, duration]);
 
   return (
-    <div className={`relative inline-block ${className}`}>
+    <span className={`relative inline-block ${className}`}>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -58,7 +58,7 @@ const MorphingText = ({
           {words[currentIndex]}
         </motion.div>
       </AnimatePresence>
-    </div>
+    </span>
   );
 };
 
