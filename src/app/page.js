@@ -17,7 +17,7 @@ export default function Page() {
    
         
        <SkillsPathTimeline></SkillsPathTimeline>
-        <div className="mt-10">
+        <div className="my-10  ">
           
           <TechCodeBlock></TechCodeBlock>
           
